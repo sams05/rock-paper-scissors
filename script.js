@@ -39,7 +39,7 @@ function playRound(playerSelection, computerSelection) {
     } else if(playerSelection === "paper") {
         if(computerSelection === "rock") {
             result = "Win";
-        } else if(computerChoice === "paper") {
+        } else if(computerSelection === "paper") {
             result = "Tie";
         } else {
             result = "Lose";
