@@ -30,29 +30,73 @@ function playRound(playerSelection, computerSelection) {
     
     if(playerSelection === "rock") {
         if(computerSelection === "rock") {
-            result = "It's a tie! Rock is tied to rock";
+            result = "Tie";
         } else if(computerSelection === "paper") {
-            result = "You lose! Paper beats rock";
+            result = "Lose";
         } else {
-            result = "You won! Rock beats scissors";
+            result = "Win";
         }
     } else if(playerSelection === "paper") {
         if(computerSelection === "rock") {
-            result = "You won! Paper beats rock";
+            result = "Win";
         } else if(computerChoice === "paper") {
-            result = "It's a tie! Paper is tied to paper";
+            result = "Tie";
         } else {
-            result = "You lose! Scissors beat paper";
+            result = "Lose";
         }
     } else {
         if(computerSelection === "rock") {
-            result = "You lose! Rock beats scissors";
+            result = "Lose";
         } else if(computerSelection === "paper") {
-            result = "You won! Scissors beat paper";
+            result = "Win";
         } else {
-            result = "It's a tie! Scissors are tied to scissors";
+            result = "Tie";
         }
     }
 
     return result;
+}
+
+function game() {
+/*
+    Play a 5 round game.
+    For each round
+        1. Prompt the player for a choice
+        2. Have the computer make its choice
+        3. Find who won
+        4. Declare winner for the round
+        5. Add the round's result to a counter
+    After all the rounds are over, declare the winner and final counts of wins, losses, and ties.
+*/
+    let numWin = 0;
+    let numLose = 0;
+    let numTie = 0;
+
+    for(let round = 1; round <= 5; round++) {
+        const playerSelection = prompt("Rock, paper, or scissors?");
+        const computerSelection = computerPlay();
+
+        const result = playRound(playerSelection, computerSelection);
+
+        if(result === "Win") {
+            console.log(`You win! ${playerSelection} beats ${computerSelection}`);
+            numWin++;
+        } else if(result === "Lose") {
+            console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
+            numLose++;
+        } else {
+            console.log(`It's a tie! ${playerSelection} is tied to ${computerSelection}`);
+            numTie++;
+        }
+    }
+
+    if(numWin > numLose) {
+        console.log("You won the game!");
+    } else if(numWin < numLose) {
+        console.log("You lost the game!");
+    } else {
+        console.log("The game is tied!");
+    }
+
+    console.log(`You won ${numWin} times, tied ${numTie} times, and lost ${numLose}`);
 }
