@@ -1,3 +1,8 @@
+// Initialize game scores
+let numWin = 0;
+let numLose = 0;
+let numTie = 0;
+
 
 function computerPlay() {
 /* 
@@ -8,26 +13,23 @@ function computerPlay() {
 
     switch(randNum) {
         case 0:
-            choice = "Rock";
+            choice = "rock";
             break;
         case 1:
-            choice = "Paper";
+            choice = "paper";
             break;
         case 2:
-            choice = "Scissors";
+            choice = "scissors";
     }
 
     return choice;
 }
 
-function playRound(playerSelection, computerSelection) {
+function getRoundResult(playerSelection, computerSelection) {
 /*
     Declare a winner for the round
 */
-    playerSelection = playerSelection.toLowerCase(); // Make user choice case-insensitive
-    computerSelection = computerSelection.toLowerCase();
-    let result;
-    
+
     if(playerSelection === "rock") {
         if(computerSelection === "rock") {
             result = "Tie";
@@ -57,6 +59,52 @@ function playRound(playerSelection, computerSelection) {
     return result;
 }
 
+function updateScores(result) {
+/* 
+    Update the score after receiving the result for a round
+*/
+    if(result === "Win") {
+        numWin++;
+    } else if(result === "Lose") {
+        numLose++;
+    } else {
+        numTie++;
+    }
+
+    const resultDisplay = document.querySelector('.result');
+    resultDisplay.textContent = `Number of wins: ${numWin} Number of losses: ${numLose} Number of ties: ${numTie}`;
+}
+
+function endGame(playerWon) {
+    const resultDisplay = document.querySelector('.result');
+
+    if(playerWon) {
+        resultDisplay.textContent += "You Won!";
+    } else {
+        resultDisplay.textContent += "You Lose!"
+    }
+
+    const buttons = document.querySelectorAll('button');
+    for(const button of buttons) {
+        button.setAttribute('hidden', true);
+    }
+}
+
+function playRound(playerSelection) {
+/*
+    Play a round
+*/
+    computerSelection = computerPlay();
+
+    const result = getRoundResult(playerSelection, computerSelection);
+    updateScores(result);
+    
+    const playerWon = numWin >= 5;
+    const computerWon = numLose >= 5;
+    if(playerWon || computerWon) {
+        endGame(playerWon);
+    }
+}
 
 /*
     Attach event handlers to play a round
@@ -65,51 +113,6 @@ const rockBtn = document.querySelector('#rock');
 const paperBtn = document.querySelector('#paper');
 const scissorsBtn = document.querySelector('#scissors');
 
-rockBtn.addEventListener('click', () => playRound('rock', computerPlay()));
-paperBtn.addEventListener('click', () => playRound('paper', computerPlay()));
-scissorsBtn.addEventListener('click', () => playRound('scissors', computerPlay()));
-
-
-function game() {
-/*
-    Play a 5 round game.
-    For each round
-        1. Prompt the player for a choice
-        2. Have the computer make its choice
-        3. Find who won
-        4. Declare winner for the round
-        5. Add the round's result to a counter
-    After all the rounds are over, declare the winner and final counts of wins, losses, and ties.
-*/
-    let numWin = 0;
-    let numLose = 0;
-    let numTie = 0;
-
-    for(let round = 1; round <= 1; round++) {
-        const playerSelection = prompt("Rock, paper, or scissors?");
-        const computerSelection = computerPlay();
-
-        const result = playRound(playerSelection, computerSelection);
-
-        if(result === "Win") {
-            console.log(`You win! ${playerSelection} beats ${computerSelection}`);
-            numWin++;
-        } else if(result === "Lose") {
-            console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-            numLose++;
-        } else {
-            console.log(`It's a tie! ${playerSelection} is tied to ${computerSelection}`);
-            numTie++;
-        }
-    }
-
-    if(numWin > numLose) {
-        console.log("You won the game!");
-    } else if(numWin < numLose) {
-        console.log("You lost the game!");
-    } else {
-        console.log("The game is tied!");
-    }
-
-    console.log(`You won ${numWin} times, tied ${numTie} times, and lost ${numLose}`);
-}
+rockBtn.addEventListener('click', () => playRound('rock'));
+paperBtn.addEventListener('click', () => playRound('paper'));
+scissorsBtn.addEventListener('click', () => playRound('scissors'));
