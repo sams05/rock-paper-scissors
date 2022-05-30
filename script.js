@@ -57,6 +57,19 @@ function playRound(playerSelection, computerSelection) {
     return result;
 }
 
+
+/*
+    Attach event handlers to play a round
+*/
+const rockBtn = document.querySelector('#rock');
+const paperBtn = document.querySelector('#paper');
+const scissorsBtn = document.querySelector('#scissors');
+
+rockBtn.addEventListener('click', () => playRound('rock', computerPlay()));
+paperBtn.addEventListener('click', () => playRound('paper', computerPlay()));
+scissorsBtn.addEventListener('click', () => playRound('scissors', computerPlay()));
+
+
 function game() {
 /*
     Play a 5 round game.
@@ -72,7 +85,7 @@ function game() {
     let numLose = 0;
     let numTie = 0;
 
-    for(let round = 1; round <= 5; round++) {
+    for(let round = 1; round <= 1; round++) {
         const playerSelection = prompt("Rock, paper, or scissors?");
         const computerSelection = computerPlay();
 
